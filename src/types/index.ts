@@ -21,25 +21,14 @@ export interface Vehicle {
 export type BookingStatus = "pending" | "confirmed" | "active" | "completed" | "cancelled";
 export type PaymentStatus = "pending" | "partial" | "paid" | "failed" | "cancelled";
 
-export interface Customer {
-  id: string;
-  full_name: string;
-  phone: string;
-  whatsapp: string;
-  email: string;
-  id_number: string;
-  id_type: string;
-  drivers_licence_number: string;
-  address: string;
-  notes: string;
-  created_at: string;
-}
-
 export interface Booking {
   id: string;
   booking_ref: string;
-  customer_id: string;
   vehicle_id: string;
+  customer_full_name: string;
+  customer_phone: string;
+  customer_whatsapp: string;
+  customer_email: string;
   start_date: string;
   end_date: string;
   total_days: number;
@@ -53,26 +42,6 @@ export interface Booking {
   notes: string;
   created_at: string;
   updated_at: string;
-  // Joined fields for display
-  customer?: Customer;
+  // Joined field for display
   vehicle?: Vehicle;
-}
-
-export type PaymentType = "deposit" | "balance" | "full_rental";
-export type PaymentProvider = "manual";
-
-export interface Payment {
-  id: string;
-  booking_id: string;
-  payment_type: PaymentType;
-  provider: PaymentProvider;
-  amount: number;
-  status: PaymentStatus;
-  reference: string;
-  poll_url: string;
-  gateway_response: string;
-  paid_at: string | null;
-  created_at: string;
-  // Joined
-  booking?: Booking;
 }

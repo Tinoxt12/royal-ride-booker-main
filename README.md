@@ -1,42 +1,17 @@
 # Royal Ride Booker
 
-Royal Ride Booker is a React + Vite web application for a self-drive car hire business. It includes a public booking flow for customers and a protected admin area for managing vehicles, bookings, customers, and payments.
-
-## Overview
-
-The app is built to support two data modes:
-
-- `mock` mode for local/demo use
-- `supabase` mode for live backend integration
-
-By default, the application safely falls back to mock data unless valid Supabase environment variables are present and `VITE_USE_MOCK_DATA=false`.
+Royal Ride Booker is a React + Vite web application for a self-drive car hire business.
+It is a public-facing booking site backed by Supabase: customers browse vehicles, pick
+dates, and submit a booking. Booking and vehicle management is done directly in the
+Supabase dashboard rather than through a separate admin app.
 
 ## Features
-
-### Public experience
 
 - Landing page with featured vehicles and booking guidance
 - Vehicle listing page
 - Vehicle detail page with date selection
 - Booking form and booking confirmation flow
 - Booking success and failure states
-
-### Admin area
-
-- Admin login route
-- Protected admin routes
-- Dashboard summary
-- Vehicle management
-- Booking management
-- Customer management
-- Payment management
-
-### Data layer
-
-- Repository abstraction for swapping data sources
-- Mock repository for development and demos
-- Supabase repository foundation for production migration
-- Starter Supabase schema in `supabase/schema.sql`
 
 ## Tech Stack
 
@@ -56,15 +31,14 @@ By default, the application safely falls back to mock data unless valid Supabase
 src/
   components/      shared UI and layout components
   config/          environment and contact config
-  data/            mock data
   hooks/           app state and data hooks
   integrations/    Supabase client helpers
   lib/             utilities
-  pages/           public and admin screens
-  repositories/    mock/supabase repository layer
+  pages/           public booking screens
+  repositories/    Supabase repository layer
   test/            test setup and tests
 supabase/
-  schema.sql       starter schema
+  schema.sql       database schema
 ```
 
 ## Getting Started
@@ -77,33 +51,21 @@ npm install
 
 ### 2. Configure environment variables
 
-Copy `.env.example` to `.env` and set values as needed:
+Copy `.env.example` to `.env` and set values:
 
 ```env
 VITE_SUPABASE_URL=your-project-url
 VITE_SUPABASE_ANON_KEY=your-anon-key
-VITE_USE_MOCK_DATA=true
 ```
+
+Both values are required — the app calls Supabase directly and has no offline/demo
+fallback.
 
 ### 3. Start the development server
 
 ```bash
 npm run dev
 ```
-
-## Environment Behavior
-
-The app decides its data source using:
-
-- `VITE_USE_MOCK_DATA`
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-
-Behavior summary:
-
-- If `VITE_USE_MOCK_DATA=true`, the app uses mock data
-- If `VITE_USE_MOCK_DATA=false` and Supabase values are present, the app uses Supabase
-- If Supabase values are missing, the app falls back to mock data
 
 `.env` is ignored by git. Only `.env.example` should be committed.
 
@@ -119,28 +81,20 @@ Behavior summary:
 
 ## Supabase
 
-The initial database schema lives in `supabase/schema.sql`.
+The database schema lives in `supabase/schema.sql`. It includes:
 
-It includes starter tables for:
-
-- vehicles
-- customers
-- bookings
-- payments
-
-It also includes:
-
-- indexes for common lookups
+- `vehicles` and `bookings` tables (customer details are inlined on `bookings`)
+- an index for booking-by-vehicle lookups
 - an `updated_at` trigger for bookings
-- starter row-level security policies
+- row-level security policies: the public can read available vehicles and create
+  bookings; reading/updating bookings and managing vehicles is done via the Supabase
+  dashboard using the service role
 
 ## Production Readiness Notes
 
-This project is in a solid demo/dev state and has a clear backend migration path, but a few areas still depend on your deployment setup:
-
-- Supabase credentials must be configured for live data mode
-- Admin authentication should be reviewed for your production auth model
-- Payment handling is structured in the UI and data model, but operational payment workflows should be validated before launch
+- Supabase credentials must be configured — there is no mock/offline mode
+- Payment handling is manual: customers are guided to confirm payment over WhatsApp/bank
+  transfer after booking; there is no in-app payment processing
 
 ## Quality Checks
 
@@ -160,7 +114,7 @@ For a static frontend deployment:
 2. Run `npm run build`.
 3. Deploy the generated `dist/` folder.
 
-If you are deploying with live Supabase data, make sure your database schema, policies, and environment values are in place first.
+Apply `supabase/schema.sql` to your Supabase project before deploying.
 
 ## Repository Notes
 

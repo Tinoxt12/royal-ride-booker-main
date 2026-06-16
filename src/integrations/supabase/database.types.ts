@@ -15,7 +15,10 @@ export interface Database {
           booking_ref: string;
           booking_status: "pending" | "confirmed" | "active" | "completed" | "cancelled";
           created_at: string;
-          customer_id: string;
+          customer_email: string;
+          customer_full_name: string;
+          customer_phone: string;
+          customer_whatsapp: string;
           daily_rate: number;
           deposit_amount: number;
           end_date: string;
@@ -34,7 +37,10 @@ export interface Database {
           booking_ref: string;
           booking_status?: "pending" | "confirmed" | "active" | "completed" | "cancelled";
           created_at?: string;
-          customer_id: string;
+          customer_email: string;
+          customer_full_name: string;
+          customer_phone: string;
+          customer_whatsapp: string;
           daily_rate: number;
           deposit_amount: number;
           end_date: string;
@@ -49,64 +55,6 @@ export interface Database {
           vehicle_id: string;
         };
         Update: Partial<Database["public"]["Tables"]["bookings"]["Insert"]>;
-      };
-      customers: {
-        Row: {
-          address: string;
-          created_at: string;
-          drivers_licence_number: string;
-          email: string;
-          full_name: string;
-          id: string;
-          id_number: string;
-          id_type: string;
-          notes: string | null;
-          phone: string;
-          whatsapp: string;
-        };
-        Insert: {
-          address: string;
-          created_at?: string;
-          drivers_licence_number: string;
-          email: string;
-          full_name: string;
-          id?: string;
-          id_number: string;
-          id_type: string;
-          notes?: string | null;
-          phone: string;
-          whatsapp: string;
-        };
-        Update: Partial<Database["public"]["Tables"]["customers"]["Insert"]>;
-      };
-      payments: {
-        Row: {
-          amount: number;
-          booking_id: string;
-          created_at: string;
-          gateway_response: string | null;
-          id: string;
-          paid_at: string | null;
-          payment_type: "deposit" | "balance" | "full_rental";
-          poll_url: string | null;
-          provider: "manual";
-          reference: string | null;
-          status: "pending" | "partial" | "paid" | "failed" | "cancelled";
-        };
-        Insert: {
-          amount: number;
-          booking_id: string;
-          created_at?: string;
-          gateway_response?: string | null;
-          id?: string;
-          paid_at?: string | null;
-          payment_type: "deposit" | "balance" | "full_rental";
-          poll_url?: string | null;
-          provider?: "manual";
-          reference?: string | null;
-          status?: "pending" | "partial" | "paid" | "failed" | "cancelled";
-        };
-        Update: Partial<Database["public"]["Tables"]["payments"]["Insert"]>;
       };
       vehicles: {
         Row: {

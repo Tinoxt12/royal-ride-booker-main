@@ -43,10 +43,6 @@ export default function BookingPage() {
     whatsapp_custom_country_code: "",
     whatsapp_local_number: "",
     email: "",
-    id_number: "",
-    id_type: "National ID",
-    drivers_licence_number: "",
-    address: "",
   });
   const [submitError, setSubmitError] = useState("");
 
@@ -99,50 +95,32 @@ export default function BookingPage() {
 
     try {
       const result = await createBookingFlow.mutateAsync({
-        customer: {
-          full_name: form.full_name.trim(),
-          phone: combinePhoneNumber(
-            form.phone_country_code === CUSTOM_COUNTRY_CODE ? form.phone_custom_country_code : form.phone_country_code,
-            form.phone_local_number,
-          ),
-          whatsapp: combinePhoneNumber(
-            form.whatsapp_country_code === CUSTOM_COUNTRY_CODE ? form.whatsapp_custom_country_code : form.whatsapp_country_code,
-            form.whatsapp_local_number,
-          ),
-          email: form.email.trim(),
-          id_number: form.id_number.trim(),
-          id_type: form.id_type,
-          drivers_licence_number: form.drivers_licence_number.trim(),
-          address: form.address.trim(),
-        },
-        booking: {
-          booking_ref: bookingRef,
-          vehicle_id: vehicle.id,
-          start_date: startDateStr,
-          end_date: endDateStr,
-          total_days: totalDays,
-          daily_rate: vehicle.daily_rate,
-          rental_total: rentalTotal,
-          deposit_amount: depositAmount,
-          amount_due_now: depositAmount,
-          booking_status: "pending",
-          payment_status: "pending",
-          payment_ref: "",
-          notes: "Awaiting deposit payment confirmation via WhatsApp",
-        },
-        payment: {
-          payment_type: "deposit",
-          provider: "manual",
-          amount: depositAmount,
-          status: "pending",
-          reference: "",
-          poll_url: "",
-          gateway_response: "",
-          paid_at: null,
-        },
+        booking_ref: bookingRef,
+        vehicle_id: vehicle.id,
+        customer_full_name: form.full_name.trim(),
+        customer_phone: combinePhoneNumber(
+          form.phone_country_code === CUSTOM_COUNTRY_CODE ? form.phone_custom_country_code : form.phone_country_code,
+          form.phone_local_number,
+        ),
+        customer_whatsapp: combinePhoneNumber(
+          form.whatsapp_country_code === CUSTOM_COUNTRY_CODE ? form.whatsapp_custom_country_code : form.whatsapp_country_code,
+          form.whatsapp_local_number,
+        ),
+        customer_email: form.email.trim(),
+        start_date: startDateStr,
+        end_date: endDateStr,
+        total_days: totalDays,
+        daily_rate: vehicle.daily_rate,
+        rental_total: rentalTotal,
+        deposit_amount: depositAmount,
+        amount_due_now: depositAmount,
+        booking_status: "pending",
+        payment_status: "pending",
+        payment_ref: "",
+        notes: "Awaiting deposit payment confirmation via WhatsApp",
       });
 
-      navigate(`/booking/success?ref=${encodeURIComponent(result.booking.booking_ref)}`);
+      navigate(`/booking/success?ref=${encodeURIComponent(result.booking_ref)}`);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "We could not complete your booking.");
     }
@@ -239,29 +217,6 @@ export default function BookingPage() {
                       inputMode="tel"
                     />
                   )}
-                </div>
-                <div>
-                  <Label htmlFor="id_type">ID Type *</Label>
-                  <Select value={form.id_type} onValueChange={(value) => update("id_type", value)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="National ID">National ID</SelectItem>
-                      <SelectItem value="Passport">Passport</SelectItem>
-                      <SelectItem value="Driver's Licence">Driver's Licence</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="id_number">ID Number *</Label>
-                  <Input id="id_number" required value={form.id_number} onChange={(e) => update("id_number", e.target.value)} />
-                </div>
-                <div>
-                  <Label htmlFor="drivers_licence_number">Driver's Licence No. *</Label>
-                  <Input id="drivers_licence_number" required value={form.drivers_licence_number} onChange={(e) => update("drivers_licence_number", e.target.value)} />
-                </div>
-                <div>
-                  <Label htmlFor="address">Address *</Label>
-                  <Input id="address" required value={form.address} onChange={(e) => update("address", e.target.value)} />
                 </div>
               </div>
             </div>

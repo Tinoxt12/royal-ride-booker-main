@@ -1,4 +1,4 @@
-export const BUSINESS_WHATSAPP_NUMBER = "447552146927";
+export const BUSINESS_WHATSAPP_NUMBER = "447478754373";
 
 export const manualPaymentInstructions = [
   "Please send your deposit using the bank details below.",

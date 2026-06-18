@@ -16,7 +16,7 @@ export default function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
     <Card className="overflow-hidden hover:shadow-lg transition-shadow group">
       <div className="aspect-video overflow-hidden bg-muted">
         <img
-          src={vehicle.photo_url}
+          src={vehicle.photo_urls[0]}
           alt={vehicle.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"

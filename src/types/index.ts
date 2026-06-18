@@ -13,7 +13,7 @@ export interface Vehicle {
   daily_rate: number;
   deposit_amount: number;
   status: VehicleStatus;
-  photo_url: string;
+  photo_urls: string[];
   notes: string;
   created_at: string;
 }

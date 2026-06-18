@@ -3,6 +3,7 @@ import { useState } from "react";
 import { format, differenceInDays } from "date-fns";
 import { CalendarIcon, ArrowRight, Users, Car } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
+import VehicleGallery from "@/components/vehicles/VehicleGallery";
 import { useVehicle } from "@/hooks/use-app-data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -79,9 +80,7 @@ export default function VehicleDetailsPage() {
       <section className="py-10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="rounded-xl overflow-hidden bg-muted aspect-video lg:aspect-[4/3]">
-              <img src={vehicle.photo_url} alt={vehicle.name} className="w-full h-full object-cover" />
-            </div>
+            <VehicleGallery photos={vehicle.photo_urls} alt={vehicle.name} />
 
             <div className="space-y-6">
               <div>

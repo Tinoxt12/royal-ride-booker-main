@@ -11,7 +11,7 @@ create table if not exists public.vehicles (
   daily_rate numeric(10, 2) not null check (daily_rate >= 0),
   deposit_amount numeric(10, 2) not null check (deposit_amount >= 0),
   status text not null default 'available' check (status in ('available', 'booked', 'maintenance')),
-  photo_url text not null,
+  photo_urls text[] not null check (array_length(photo_urls, 1) > 0),
   notes text,
   created_at timestamptz not null default timezone('utc', now())
 );

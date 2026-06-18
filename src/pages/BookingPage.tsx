@@ -225,7 +225,7 @@ export default function BookingPage() {
               <div className="bg-secondary rounded-xl p-5 space-y-3 sticky top-24">
                 <h2 className="font-display font-semibold text-lg">Booking Summary</h2>
                 <div className="rounded-lg overflow-hidden bg-muted aspect-video">
-                  <img src={vehicle.photo_url} alt={vehicle.name} className="w-full h-full object-cover" />
+                  <img src={vehicle.photo_urls[0]} alt={vehicle.name} className="w-full h-full object-cover" />
                 </div>
                 <p className="font-semibold">{vehicle.name}</p>
                 <div className="text-sm space-y-1 text-muted-foreground">

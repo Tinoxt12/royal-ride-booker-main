@@ -65,7 +65,7 @@ export interface Database {
           id: string;
           name: string;
           notes: string | null;
-          photo_url: string;
+          photo_urls: string[];
           plate: string;
           seats: number;
           status: "available" | "booked" | "maintenance";
@@ -80,7 +80,7 @@ export interface Database {
           id?: string;
           name: string;
           notes?: string | null;
-          photo_url: string;
+          photo_urls: string[];
           plate: string;
           seats: number;
           status?: "available" | "booked" | "maintenance";

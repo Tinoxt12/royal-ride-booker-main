@@ -11,7 +11,7 @@ const navLinks = [
 
 export default function PublicLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
-  const whatsappDisplayNumber = "+44 7552 146927";
+  const whatsappDisplayNumber = `+${BUSINESS_WHATSAPP_NUMBER.slice(0, 2)} ${BUSINESS_WHATSAPP_NUMBER.slice(2, 6)} ${BUSINESS_WHATSAPP_NUMBER.slice(6)}`;
 
   return (
     <div className="min-h-screen flex flex-col">
